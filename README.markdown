@@ -1,8 +1,23 @@
 Urbanairship is a Ruby library for interacting with the [Urban Airship API](http://urbanairship.com).
 
+This gem supports Urbanairship API v3 with Ruby 1.8.6 or above. As the official gem from UA requires Ruby 2.0.0 or above, we build this gem for old Ruby versions.
+
+http://docs.urbanairship.com/api/api-v3-migration-guide.html
+
 Installation
 ============
+
     gem install urbanairship-ruby
+
+Then require `urbanairship` in your code
+
+```ruby
+require 'urbanairship'
+```
+
+or add to Gemfile
+
+    gem 'urbanairship-ruby', require: 'urbanairship'
 
 Configuration
 =============
@@ -395,3 +410,14 @@ client.register_device('DEVICE-TOKEN')
 ```
 
 This can be used to use clients for different Urbanairship applications in a thread-safe manner.
+
+Contributing to urbanairship-ruby
+=================================
+
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
+* Fork the project.
+* Start a feature/bugfix branch.
+* Commit and push until you are happy with your contribution.
+* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
