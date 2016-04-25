@@ -18,7 +18,7 @@ module Urbanairship
     VERSION = 3
 
     def register_device(device_token, options = {})
-      body = parse_register_options(options).to_json
+      body = JSON.dump(parse_register_options(options))
 
       path = device_tokens_end_point(options[:provider] || @provider)
       do_request(:put, "/api/#{path}/#{device_token}", :body => body, :authenticate_with => :application_secret)
@@ -36,7 +36,7 @@ module Urbanairship
 
     # Schedules API
     def create_schedule(schedule)
-      do_request(:post, "/api/schedules/", :body => schedule.to_json, :authenticate_with => :master_secret)
+      do_request(:post, "/api/schedules/", :body => JSON.dump(schedule), :authenticate_with => :master_secret)
     end
 
     def schedules
@@ -48,7 +48,7 @@ module Urbanairship
     end
 
     def update_schedule(id, schedule)
-      do_request(:put, "/api/schedules/#{id}", :body => schedule.to_json, :authenticate_with => :master_secret)
+      do_request(:put, "/api/schedules/#{id}", :body => JSON.dump(schedule), :authenticate_with => :master_secret)
     end
 
     def delete_schedule(id)
@@ -57,7 +57,7 @@ module Urbanairship
 
     # Push API
     def push(options = {})
-      body = parse_push_options(options.dup).to_json
+      body = JSON.dump(parse_push_options(options.dup))
       do_request(:post, "/api/push/", :body => body, :authenticate_with => :master_secret)
     end
 
@@ -76,12 +76,14 @@ module Urbanairship
 
     def tag_device(params)
       provider_field = device_tokens_end_point(params[:provider] || @provider).to_sym
-      do_request(:post, "/api/tags/#{params[:tag]}", :body => {provider_field => {:add => [params[:device_token]]}}.to_json, :authenticate_with => :master_secret)
+      body = JSON.dump({provider_field => {:add => [params[:device_token]]}})
+      do_request(:post, "/api/tags/#{params[:tag]}", :body => body, :authenticate_with => :master_secret)
     end
 
     def untag_device(params)
       provider_field = device_tokens_end_point(params[:provider] || @provider).to_sym
-      do_request(:post, "/api/tags/#{params[:tag]}", :body => {provider_field => {:remove => [params[:device_token]]}}.to_json, :authenticate_with => :master_secret)
+      body = JSON.dump({provider_field => {:remove => [params[:device_token]]}})
+      do_request(:post, "/api/tags/#{params[:tag]}", :body => body, :authenticate_with => :master_secret)
     end
 
     # Device Tokens API
@@ -107,7 +109,7 @@ module Urbanairship
     end
 
     def create_segment(segment)
-      do_request(:post, "/api/segments", :body => segment.to_json, :authenticate_with => :master_secret)
+      do_request(:post, "/api/segments", :body => JSON.dump(segment), :authenticate_with => :master_secret)
     end
 
     def segment(id)
@@ -115,7 +117,7 @@ module Urbanairship
     end
 
     def update_segment(id, segment)
-      do_request(:put, "/api/segments/#{id}", :body => segment.to_json, :authenticate_with => :master_secret)
+      do_request(:put, "/api/segments/#{id}", :body => JSON.dump(segment), :authenticate_with => :master_secret)
     end
 
     def delete_segment(id)
